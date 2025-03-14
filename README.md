@@ -116,4 +116,42 @@ In this lab, we will be setting up a virtualized network environment using Oracl
      - Install
      - VM will automatically restart
 
-![10](https://github.com/user-attachments/assets/75448720-f52d-4c3d-90ee-dcb5fb7c999e)
+<img width="1000" alt="10" src="https://github.com/user-attachments/assets/75448720-f52d-4c3d-90ee-dcb5fb7c999e" />
+<img width="1000" src="https://github.com/user-attachments/assets/26cec4bc-576c-4505-915b-4d3cd36336f6" />
+
+3. We will want to create our own dedicated domain admin account instead of using the built in admin account
+     - In the start menu -> Windows Administrative Tools -> Active Directory Users and Computers
+     - mydomain.com, right click and create a new Organizational Unit titled _ADMINS
+     - uncheck the Protect container
+
+<img width="1000" alt="14" src="https://github.com/user-attachments/assets/f3241b77-6e1e-4a03-9b05-e83f178d7bff" />
+
+4. Right click on the new Organizational Unit (_ADMINS)
+     - Create new User
+     - User your name
+     - Normal naming convention would be [a(admin)-firstletteroffirstname-lastname]
+     - Uncheck user cannot change password, and select Password never expires
+     - Finish
+
+<img width="1000" src="https://github.com/user-attachments/assets/8f6bd8d4-c4dd-4319-a82b-796ff3726752" />
+
+5. Right click on the new account under your name
+     - Go to properties
+     - Under the Member of tab, select Add...
+     - Enter Domain Admins object name
+     - Check
+     - Apply
+     - Now we have our own Domain Admin Account
+
+<img width="1000" src="https://github.com/user-attachments/assets/4184590e-a117-46bb-b70f-523ca7ca5166" />
+
+6. Now when we sign out, and sign in user Other user, use the admin name you created
+     - Notice how it signs in to: MYDOMAIN
+  
+<img width="1000" src="https://github.com/user-attachments/assets/efa266e3-c6e8-4804-a749-6723a3a473d0" />
+
+---
+
+## Install Remote Access Server and Network Access Translation
+
+1. 
