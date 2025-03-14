@@ -216,5 +216,16 @@ In this lab, we will be setting up a virtualized network environment using Oracl
 
 2. This PowerShell script is used to create new Active Directory (AD) users based on a list of names from a file (names.txt)
      - [$PASSWORD_FOR_USERS] sets the password for all users to Password1
-     - [$USER_FIRST_LAST_LIST] reads the names of users from a file called names.txt. Each line in the file should contain a first and last name.
-     - [$password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force] Converts the plain-text password (Password1) into a secure string to use with the New-AdUser cmdlet. This is a requirement for securely setting passwords in AD.
+     - [$USER_FIRST_LAST_LIST] reads the names of users from a file called names.txt. Each line in the file should contain a first and last name
+     - [$password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force] Converts the plain-text password (Password1) into a secure string to use with the New-AdUser cmdlet. This is a requirement for securely setting passwords in AD
+     - [New-ADOrganizationalUnit -Name _USERS -ProtectedFromAccidentalDeletion $false] creates a new Organizational Unit (OU) in Active Directory called _USERS. The option -ProtectedFromAccidentalDeletion $false means the OU is not protected from accidental deletion, so it can be deleted later if necessary
+     - The [foreach ($n in $USER_FIRST_LAST_LIST)] block Loops through each name in the list ($USER_FIRST_LAST_LIST). It splits each name into a first name and a last name (assuming the names are space-separated). Converts both the first and last names to lowercase. Creates a username by taking the first letter of the first name and appending the entire last name (both in lowercase)
+     - AccountPassword: Sets the user's password to the secure string
+     - GivenName: Sets the first name of the user
+     - Surname: Sets the last name of the user
+     - DisplayName: Sets the display name (often used for email or in the AD interface)
+     - Name: Sets the full name of the user
+     - EmployeeID: Uses the username for the employee ID
+     - PasswordNeverExpires: Sets the user's password to never expire
+     - Path: Specifies the path (location) in AD where the user is created. In this case, the _USERS OU is used
+     - Enabled: Enables the user account immediately upon creation
