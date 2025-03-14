@@ -154,4 +154,67 @@ In this lab, we will be setting up a virtualized network environment using Oracl
 
 ## Install Remote Access Server and Network Access Translation
 
-1. 
+1. We want to install RAS/NAT on our domain controller to allow our Windows 10 client to be on a private virtual network but still have access to the internet through the domain controller
+     - Add roles and features in our Server Manager Dashboard
+     - Server Roles: Remote Access
+     - Role Services: Routing
+     - Install
+<img width="1000" src="https://github.com/user-attachments/assets/f5f01dc7-2dce-4ccc-accb-0947545de145" />
+<img width="1000" src="https://github.com/user-attachments/assets/63413a58-3dc5-4946-be8f-73c5b575629f" />
+
+2. Next, go to Tools on the Dashboard, and select Routing and Remote Access
+     - Right click DC (local), select Configure and Enable routing and Remote Access
+     - We want to install NAT to allow internal clients to connect to the Internet using one public IP address
+     - Select Use this public interface to connect to the internet
+     - Choose the internet option that we renamed
+     - Now our clients are able to access the internet once we setup the DHCP
+
+<img width="1000" src="https://github.com/user-attachments/assets/ccecb280-f9cb-4368-be11-5bf1b47293f1" />
+
+---
+
+## Configuring our DHCP Server
+
+1. Add roles and features in our Server Manager Dashboard
+     - Server Roles: DHCP Server
+     - Install
+
+<img width="1000" alt="21" src="https://github.com/user-attachments/assets/51bca55a-c50e-41a4-bfa7-50e53d0b6f4b" />
+
+2. Go to Tools in the Server Manager Dashboard
+     - Click DHCP
+     - Expanding dc.mydomain.com you will notice IPv4 and IPv6 are both down (red indicator)
+     - Right click IPv4 -> New Scope...
+     - The name will be the Range displayed in our diagram (172.16.0.100-200)
+     - Start IP address: 172.16.0.100
+     - End IP address: 172.16.0.200
+     - Subnetmask: 255.255.255.0
+     - Lease Duration: 8 days
+     - Router (Default Gateway): 172.16.0.1
+            - Since the clients are using internet through the domain controller, we will assign their default gateway to be the same as the domain controllers internet NIC
+     - Click Add
+     - Finish
+     - Right click dc.mydomain.com and select Authorize, when you refresh the servers should be up and running
+
+<img width="1000" src="https://github.com/user-attachments/assets/eb06654c-8882-414f-9764-9802504806ca" />
+<img width="1000" src="https://github.com/user-attachments/assets/91331564-6d63-47c1-9cf1-a5ea2aac17b9" />
+
+4. Next we need to make a configuration that allows us to browse the internet through the domain controller
+     - Configure this local server on the Server Manager Dashboard
+     - Turn off IE Enhanced Security Configuration
+
+<img width="1000" src="https://github.com/user-attachments/assets/a76edb92-4110-46d7-bdea-db2518ad9cac" />
+
+---
+
+## Using PowerShell to Create Users
+
+1. Click on Start -> Windows PowerShell -> Windows PowerShell ISE -> More -> Run as administrator
+     - We are going to take 1000+ names into a document and run the following script
+  
+<img width="1000" src="https://github.com/user-attachments/assets/ef8930cc-7b4c-45ed-b9a9-24dce1079cd4" />
+
+2. This PowerShell script is used to create new Active Directory (AD) users based on a list of names from a file (names.txt)
+     - [$PASSWORD_FOR_USERS] sets the password for all users to Password1
+     - [$USER_FIRST_LAST_LIST] reads the names of users from a file called names.txt. Each line in the file should contain a first and last name.
+     - [$password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force] Converts the plain-text password (Password1) into a secure string to use with the New-AdUser cmdlet. This is a requirement for securely setting passwords in AD.
