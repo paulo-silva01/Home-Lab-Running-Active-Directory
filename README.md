@@ -211,6 +211,8 @@ In this lab, we will be setting up a virtualized network environment using Oracl
 
 1. Click on Start -> Windows PowerShell -> Windows PowerShell ISE -> More -> Run as administrator
      - We are going to take 1000+ names into a document and run the following script
+     - Must run [Set-ExecutionPolicy Unrestricted] and press enter before running the script
+     - [cd] to the names text files
   
 <img width="1000" src="https://github.com/user-attachments/assets/ef8930cc-7b4c-45ed-b9a9-24dce1079cd4" />
 
@@ -229,3 +231,53 @@ In this lab, we will be setting up a virtualized network environment using Oracl
      - PasswordNeverExpires: Sets the user's password to never expire
      - Path: Specifies the path (location) in AD where the user is created. In this case, the _USERS OU is used
      - Enabled: Enables the user account immediately upon creation
+
+3. After Running we should see users begin to populate
+
+<img width="1000" src="https://github.com/user-attachments/assets/9ca452fb-ec1f-4c2e-afe8-48acad3043eb" />
+
+---
+
+## Create Windows 10 Virtual Machine in VirtualBox
+
+1. Open VirtualBox and create a new machine
+     - Name: CLIENT1
+     - Version: Windows 10 (64-bit)
+     - Memory Size: 4096 MB
+     - Finish
+     - Under Settings
+          - Shared Clipboard / Drag'n'Drop: Bidirectional
+          - Processor(s): 4 CPUs
+          - Adapter 1: Internal Network
+
+<img width="1000" src="https://github.com/user-attachments/assets/043a8bc8-c5b5-4a3b-855d-a4945fcedd14" />
+
+2. Turn on our CLIENT1 machine
+        - When prompted for a virtual optical disk file, browser and select the Windows 10 ISO file
+
+<img width="1000" src="https://github.com/user-attachments/assets/00cab4f2-ed2d-4e1c-85e4-370f18d45f36" />
+
+3. Once it starts, open the Command Prompt and use [ipconfig]
+     - It should list the IPv4 Address of our domain controller as well as its default gateway
+  
+4. Now we want to change the hostname of our CLIENT1 machine
+     - Right click the start mene -> system
+     - Rename this PC (advanced)
+     - Press Change, name: CLIENT1
+     - Domain: mydomain.com
+     - When prompted for username and password, use the Domain Admin account we created earlier
+
+<img width="1000" src="https://github.com/user-attachments/assets/f95355bf-2ec0-4366-bb21-078f5a0478ef" />
+
+5. Now go back to domain controller VM and locate DHCP under tools of our Server Manager Dashboard
+     - Under IPv4, expand Scope -> Address Leases
+     - We have one lease from our CLIENT1 computer
+     - If we were to make more, we will see them listed here
+
+<img width="1000" src="https://github.com/user-attachments/assets/9660267f-c07b-4270-b3c5-d4741189bf73" />
+
+6. Once our CLIENT1 machine is finished resetting, we can login and access the internet
+     - using [whoami] it shows that we are a member of mydomain
+
+<img width="1000" src="https://github.com/user-attachments/assets/9ad54109-0b52-44e8-aaaf-8d0cda976f4d" />
+<img width="1000" src="https://github.com/user-attachments/assets/ab41dd2b-1a49-45a2-a758-17f612b8b00d" />
