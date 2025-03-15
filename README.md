@@ -16,7 +16,14 @@ In this lab, we will be setting up a virtualized network environment using Oracl
 
 # Table of Contents
 
-- [](#)
+- [Collecting Files](#Collecting-Files)
+- [Configuring our Virtual Machine](#Configuring-our-Virtual-Machine)
+- [Configuring our Networks](#Configuring-our-Networks)
+- [Install Active Directory Domain Services](#Install-Active-Directory-Domain-Services)
+- [Install Remote Access Server and Network Access Translation](#Install-Remote-Access-Server-and-Network-Access-Translation)
+- [Configuring our DHCP Server](#Configuring-our-DHCP-Server)
+- [Using PowerShell to Create Users](#Using-PowerShell-to-Create-Users)
+- [Create Windows 10 Virtual Machine in VirtualBox](#Create-Windows-10-Virtual-Machine-in-VirtualBox)
 
 ---
 
@@ -29,7 +36,7 @@ In this lab, we will be setting up a virtualized network environment using Oracl
 
 ---
 
-## Configuring Virtual Machine
+## Configuring our Virtual Machine
 
 1. Once VirtualBox is downloaded, open the program
      - We want to make a new machine
